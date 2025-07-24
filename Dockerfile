@@ -1,18 +1,15 @@
 # syntax=docker/dockerfile:1
 
 # ECR and base image configuration - extracted from CodeBuild environment
-ARG ECR_ACCOUNT_ID
-ARG ECR_REGION
+ARG ECR_ACCOUNT_ID=0123456789012
+ARG ECR_REGION=us-east-1
 ARG BASE_IMAGE_NAME=docker-linuxserver-ubuntu-fips
-ARG BASE_IMAGE_TAG=jammy-22.04
+ARG BASE_IMAGE_TAG=ubuntu-fips
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
 
 ARG DEBIAN_FRONTEND="noninteractive"
-
-# Set root user home directory to /workspace
-RUN usermod -d /workspace root
 
 # Install Python 3.12
 RUN echo "**** install Python 3.12 ****" && \
