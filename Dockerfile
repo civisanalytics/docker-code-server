@@ -1,7 +1,39 @@
 # syntax=docker/dockerfile:1
 
-FROM gabemendoza1/docker-linuxserver-ubuntu-fips:jammy-22.04
+FROM gabemendoza1/docker-linuxserver-ubuntu-fips:jammy-22.04 as docker-code-server-python
 
+ARG DEBIAN_FRONTEND="noninteractive"
+
+# Set root user home directory to /workspace
+RUN usermod -d /workspace root
+
+# Install Python 3.12
+RUN echo "**** install Python 3.12 ****" && \
+  apt-get update && \
+  apt-get install -y \
+    software-properties-common \
+    gpg-agent && \
+  curl -fsSL https://keyserver.ubuntu.com/pks/lookup?op=get\&search=0xF23C5A6CF475977595C89F51BA6932366A755776 | apt-key add - && \
+  echo "deb https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy main" > /etc/apt/sources.list.d/deadsnakes.list && \
+  apt-get update && \
+  apt-get install -y \
+    python3.12 \
+    python3.12-dev \
+    python3.12-venv \
+    python3.12-distutils && \
+  update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
+  update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1 && \
+  curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
+  pip3 install --upgrade pip setuptools wheel && \
+  python3 --version && \
+  pip3 --version && \
+  echo "**** clean up ****" && \
+  apt-get clean && \
+  rm -rf \
+    /var/lib/apt/lists/* \
+    /tmp/* 
+
+FROM docker-code-server-python
 ARG BUILD_DATE
 ARG VERSION
 ARG CODE_RELEASE
