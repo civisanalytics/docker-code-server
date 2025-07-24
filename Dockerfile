@@ -4,7 +4,7 @@
 ARG ECR_ACCOUNT_ID=0123456789012
 ARG ECR_REGION=us-east-1
 ARG BASE_IMAGE_NAME=docker-linuxserver-ubuntu-fips
-ARG BASE_IMAGE_TAG=ubuntu-fips
+ARG BASE_IMAGE_TAG=ubuntu-fips-2
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
