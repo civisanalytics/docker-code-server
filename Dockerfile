@@ -1,6 +1,13 @@
 # syntax=docker/dockerfile:1
 
-FROM gabemendoza1/docker-linuxserver-ubuntu-fips:jammy-22.04 as docker-code-server-python
+# ECR and base image configuration - extracted from CodeBuild environment
+ARG ECR_ACCOUNT_ID
+ARG ECR_REGION
+ARG BASE_IMAGE_NAME=docker-linuxserver-ubuntu-fips
+ARG BASE_IMAGE_TAG=jammy-22.04
+ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
+
+FROM ${ECR_URI} as docker-code-server-python
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -19,8 +26,7 @@ RUN echo "**** install Python 3.12 ****" && \
   apt-get install -y \
     python3.12 \
     python3.12-dev \
-    python3.12-venv \
-    python3.12-distutils && \
+    python3.12-venv && \
   update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
   update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1 && \
   curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
@@ -31,7 +37,7 @@ RUN echo "**** install Python 3.12 ****" && \
   apt-get clean && \
   rm -rf \
     /var/lib/apt/lists/* \
-    /tmp/* 
+    /tmp/*
 
 FROM docker-code-server-python
 ARG BUILD_DATE

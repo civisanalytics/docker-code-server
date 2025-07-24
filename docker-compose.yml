@@ -1,13 +1,18 @@
 ---
 services:
   docker-code-server:
-    image: gabemendoza1/docker-code-server:jammy22.04-python3.12-codeserver-v${CODE_RELEASE:-4.102.1}
+    image: "${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/docker-code-server:${IMAGE_TAG:-local}"
+    pull_policy: build
     build:
       context: .
       dockerfile: Dockerfile
       platforms:
         - linux/amd64
       args:
+        - ECR_ACCOUNT_ID=${ECR_ACCOUNT_ID}
+        - ECR_REGION=${ECR_REGION:-us-east-1}
+        - BASE_IMAGE_NAME=${BASE_IMAGE_NAME:-docker-linuxserver-ubuntu-fips}
+        - BASE_IMAGE_TAG=${BASE_IMAGE_TAG:-jammy-22.04}
         - VERSION=${VERSION:-4.102.1}
         - CODE_RELEASE=${CODE_RELEASE:-4.102.1}
     environment:
