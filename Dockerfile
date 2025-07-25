@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# ECR and base image configuration - extracted from CodeBuild environment
 ARG ECR_ACCOUNT_ID
 ARG ECR_REGION=us-east-1
 ARG BASE_IMAGE_NAME=docker-linuxserver-ubuntu-fips
