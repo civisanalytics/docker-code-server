@@ -77,6 +77,9 @@ RUN echo "**** install runtime dependencies ****" && \
     /var/lib/apt/lists/* \
     /var/tmp/*
 
+# add local files
 COPY /root /
 
+# ports and volumes
 EXPOSE 8443
+
