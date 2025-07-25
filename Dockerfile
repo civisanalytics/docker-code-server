@@ -9,6 +9,8 @@ ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IM
 
 FROM ${ECR_URI} as docker-code-server-python
 
+ARG DEBIAN_FRONTEND="noninteractive"
+
 # Install Python 3.12
 RUN echo "**** install Python 3.12 ****" && \
   apt-get update && \
@@ -54,19 +56,18 @@ RUN echo "**** install runtime dependencies ****" && \
     net-tools \
     netcat-openbsd \
     sudo && \
-  \
   echo "**** install code-server ****" && \
   if [ -z ${CODE_RELEASE+x} ]; then \
     CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
       | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
   fi && \
   mkdir -p /app/code-server && \
-  DOWNLOAD_URL="https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" && \
-  curl -fsSL -o /tmp/code-server.tar.gz "${DOWNLOAD_URL}" && \
-  tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1 && \
-  /app/code-server/bin/code-server --version && \
+  curl -o \
+    /tmp/code-server.tar.gz -L \
+    "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" && \
+  tar xf /tmp/code-server.tar.gz -C \
+    /app/code-server --strip-components=1 && \
   printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version && \
-  \
   echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
