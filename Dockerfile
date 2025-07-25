@@ -9,8 +9,6 @@ ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IM
 
 FROM ${ECR_URI} as docker-code-server-python
 
-ARG DEBIAN_FRONTEND="noninteractive"
-
 # Install Python 3.12
 RUN echo "**** install Python 3.12 ****" && \
   apt-get update && \
