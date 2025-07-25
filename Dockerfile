@@ -40,14 +40,16 @@ FROM docker-code-server-python
 ARG BUILD_DATE
 ARG VERSION
 ARG CODE_RELEASE
-ARG DEBIAN_FRONTEND="noninteractive"
 
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="civisanalytics"
 
-ENV HOME="/workspace"
+# environment settings
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV HOME="/config"
 
-RUN echo "**** install runtime dependencies ****" && \
+RUN \
+  echo "**** install runtime dependencies ****" && \
   apt-get update && \
   apt-get install -y \
     git \
@@ -81,4 +83,3 @@ COPY /root /
 
 # ports and volumes
 EXPOSE 8443
-
