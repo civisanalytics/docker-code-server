@@ -54,7 +54,7 @@ RUN echo "**** install runtime dependencies ****" && \
     libatomic1 \
     nano \
     net-tools \
-    netcat-traditional \
+    netcat-openbsd \
     sudo && \
   \
   echo "**** install code-server ****" && \
