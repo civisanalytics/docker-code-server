@@ -1,7 +1,7 @@
 ---
 services:
   docker-code-server:
-    image: "${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/docker-code-server:${IMAGE_TAG:-local}"
+    image: "${ECR_ACCOUNT_ID:-0123456789012}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/docker-code-server:${IMAGE_TAG:-local}"
     pull_policy: build
     build:
       context: .
@@ -9,7 +9,7 @@ services:
       platforms:
         - linux/amd64
       args:
-        - ECR_ACCOUNT_ID=${ECR_ACCOUNT_ID}
+        - ECR_ACCOUNT_ID=${ECR_ACCOUNT_ID:-0123456789012}
         - BASE_IMAGE_TAG=${BASE_IMAGE_TAG:-local}
         - VERSION=${VERSION:-4.102.1}
         - CODE_RELEASE=${CODE_RELEASE:-4.102.1}
