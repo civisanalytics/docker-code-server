@@ -35,10 +35,9 @@ RUN echo "**** install Python 3.12 ****" && \
 RUN echo "**** install R ${R_VERSION} ****" && \
   curl -o /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb https://cdn.posit.co/r/ubuntu-2204/pkgs/r-${R_VERSION}_1_$(dpkg --print-architecture).deb && \
   apt-get -y install /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb && \
-  # Add symbolic links so R and Rscript are available system-wide
-  sudo ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R && \
-  sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript && \
-
+  # Add links so R and Rscript are available system-wide
+  ln /opt/R/${R_VERSION}/bin/R /usr/local/bin/R && \
+  ln /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript && \
   echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
