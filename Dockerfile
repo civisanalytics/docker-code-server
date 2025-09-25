@@ -41,6 +41,9 @@ RUN echo "**** install R ${R_VERSION} ****" && \
     /var/lib/apt/lists/* \
     /tmp/*
 
+# Add R to PATH
+ENV PATH=/opt/R/${R_VERSION}/bin:${PATH}
+
 FROM docker-code-server-python
 ARG BUILD_DATE
 ARG VERSION
