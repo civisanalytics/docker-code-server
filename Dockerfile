@@ -7,7 +7,7 @@ ARG BASE_IMAGE_TAG=jammy-latest
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
-ENV R_VERSION=3.2.0
+ENV R_VERSION=next
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
