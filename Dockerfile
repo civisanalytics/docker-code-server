@@ -7,6 +7,8 @@ ARG BASE_IMAGE_TAG=jammy-latest
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
+# Set the R version to install, next is always the latest version: https://cdn.posit.co/r/versions.json
+ENV R_VERSION=next
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -28,12 +30,21 @@ RUN echo "**** install Python 3.12 ****" && \
   curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 && \
   pip3 install --upgrade pip setuptools wheel && \
   python3 --version && \
-  pip3 --version && \
-  echo "**** clean up ****" && \
+  pip3 --version
+
+
+RUN echo "**** install R ${R_VERSION} ****" && \
+  curl -o /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb https://cdn.posit.co/r/ubuntu-2204/pkgs/r-${R_VERSION}_1_$(dpkg --print-architecture).deb && \
+  apt-get -y install /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb
+
+RUN echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
     /var/lib/apt/lists/* \
     /tmp/*
+
+# Add R to PATH
+ENV PATH=/opt/R/${R_VERSION}/bin:${PATH}
 
 FROM docker-code-server-python
 ARG BUILD_DATE
