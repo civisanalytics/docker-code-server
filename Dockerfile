@@ -7,6 +7,7 @@ ARG BASE_IMAGE_TAG=jammy-latest
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
+# Set the R version to install, next is always the latest version: https://cdn.posit.co/r/versions.json
 ENV R_VERSION=next
 
 ARG DEBIAN_FRONTEND="noninteractive"
