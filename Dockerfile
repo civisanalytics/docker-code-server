@@ -73,7 +73,6 @@ RUN \
     sudo && \
   echo "**** install code-server ****" && \
   if [ -z ${CODE_RELEASE+x} ]; then \
-    echo "CODE_RELEASE not set, fetching latest version from GitHub"; \
     CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
       | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
   fi && \
