@@ -34,6 +34,9 @@ RUN echo "**** install Python 3.12 ****" && \
 
 
 RUN echo "**** install R ${R_VERSION} ****" && \
+  apt-get install -y \
+    libcurl4-openssl-dev \
+    libxml2-dev && \
   curl -o /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb https://cdn.posit.co/r/ubuntu-2204/pkgs/r-${R_VERSION}_1_$(dpkg --print-architecture).deb && \
   apt-get -y install /tmp/r-${R_VERSION}_1_$(dpkg --print-architecture).deb
 
@@ -70,6 +73,7 @@ RUN \
     sudo && \
   echo "**** install code-server ****" && \
   if [ -z ${CODE_RELEASE+x} ]; then \
+    echo "CODE_RELEASE not set, fetching latest version from GitHub"; \
     CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
       | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
   fi && \
