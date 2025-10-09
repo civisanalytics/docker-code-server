@@ -3,8 +3,7 @@
 ARG ECR_ACCOUNT_ID
 ARG ECR_REGION=us-east-1
 ARG BASE_IMAGE_NAME=docker-linuxserver-ubuntu-fips
-# ARG BASE_IMAGE_TAG=jammy-latest
-ARG BASE_IMAGE_TAG=update-upstream-oct9-25
+ARG BASE_IMAGE_TAG=jammy-latest
 ARG ECR_URI=${ECR_ACCOUNT_ID}.dkr.ecr-fips.${ECR_REGION}.amazonaws.com/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
 
 FROM ${ECR_URI} as docker-code-server-python
