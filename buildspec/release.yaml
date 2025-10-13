@@ -7,7 +7,7 @@ phases:
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${FIPS_REPOSITORY_URI}
   build:
     commands:
-      - . .default_env
+      - . ./.default_env
       - echo Building the Docker image for code-server v${CODE_RELEASE}...
       - PATCH_TAG=${TAG_NAME#"v"}
       - MINOR_TAG=${PATCH_TAG%.*}
