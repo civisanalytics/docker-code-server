@@ -11,6 +11,14 @@ services:
       args:
         - ECR_ACCOUNT_ID=${ECR_ACCOUNT_ID:-0123456789012}
         - BASE_IMAGE_TAG=${BASE_IMAGE_TAG:-jammy-latest}
-    env_file: ./.default_env
+        - VERSION=${VERSION:-4.102.1}
+        - CODE_RELEASE=${CODE_RELEASE:-4.102.1}
+    environment:
+      - PUID=${PUID:-123654}
+      - PGID=${PGID:-123654}
+      - TZ=${TZ:-America/Chicago}
+      - PROXY_DOMAIN=${PROXY_DOMAIN:-}
+      - DEFAULT_WORKSPACE=${DEFAULT_WORKSPACE:-/workspace}
+      - PWA_APPNAME=${PWA_APPNAME:-code-server}
     ports:
       - "${HOST_PORT:-8443}:8443"
