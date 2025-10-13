@@ -8,13 +8,15 @@ phases:
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${FIPS_REPOSITORY_URI}
   build:
     commands:
-      - echo Building the Docker image...
+      - . .default_env
+      - echo Building the Docker image for code-server v${CODE_RELEASE}...
       - echo $FIPS_REPOSITORY_URI
       - echo $COMMIT_HASH_SHORT
       - echo $BRANCH_NAME
       - >
         docker build 
         --build-arg ECR_ACCOUNT_ID=${ECR_ACCOUNT_ID}
+        --build-arg CODE_RELEASE=${CODE_RELEASE}
         --tag ${FIPS_REPOSITORY_URI}:${COMMIT_HASH_SHORT}
         --tag ${FIPS_REPOSITORY_URI}:${BRANCH_NAME}
         .

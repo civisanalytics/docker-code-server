@@ -52,7 +52,7 @@ ENV PATH=/opt/R/${R_VERSION}/bin:${PATH}
 FROM docker-code-server-python
 ARG BUILD_DATE
 ARG VERSION
-ARG CODE_RELEASE=4.103.2
+ENV CODE_RELEASE=${CODE_RELEASE}
 
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="civisanalytics"
