@@ -8,7 +8,8 @@ phases:
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${FIPS_REPOSITORY_URI}
   build:
     commands:
-      - . .default_env
+      - ls -la .
+      - . ./.default_env
       - echo Building the Docker image for code-server v${CODE_RELEASE}...
       - echo $FIPS_REPOSITORY_URI
       - echo $COMMIT_HASH_SHORT
