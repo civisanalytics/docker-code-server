@@ -9,7 +9,7 @@ phases:
     commands:
       - . ./default.env
       - echo Building the Docker image for code-server v${CODE_RELEASE}...
-      - PATCH_TAG=${TAG_NAME#"v"}
+      - PATCH_TAG="${CODE_RELEASE}-${TAG_NAME#"v"}"
       - MINOR_TAG=${PATCH_TAG%.*}
       - MAJOR_TAG=${MINOR_TAG%.*}
       - >
