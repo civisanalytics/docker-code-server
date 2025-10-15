@@ -52,6 +52,7 @@ ENV PATH=/opt/R/${R_VERSION}/bin:${PATH}
 FROM docker-code-server-python
 ARG BUILD_DATE
 ARG VERSION
+# NOTE: This is set in `./default.env`. Update the version there when updating the vscode version.
 ARG CODE_RELEASE
 
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
